@@ -1,0 +1,70 @@
+.profileContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.avatarName {
+  text-align: center;
+  font-size: 28px;
+  padding-top: 10px;
+}
+
+.profileWrapper {
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: 40rem;
+  border-radius: 14px;
+  padding: 30px;
+}
+
+.profileWrapper {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profileWrapper #avatar {
+  border-radius: 50%;
+  width: 15rem;
+}
+
+.profileWrapper .infoContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  min-width: 35rem;
+}
+
+.profileWrapper .episodes {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 20px;
+}
+
+.profileInfoComponent {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #e7e2e2;
+  padding: 10px;
+}
+
+@media screen and (max-width: 480px) {
+  .profileWrapper {
+    padding: 20px;
+  }
+  .profileWrapper {
+    width: 22rem;
+  }
+  .profileWrapper #avatar {
+    width: 10rem;
+  }
+  .profileWrapper .infoContainer {
+    padding: 10px;
+    min-width: 20rem;
+  }
+  .profileWrapper .episodes {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+  }
+}

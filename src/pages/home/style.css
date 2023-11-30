@@ -1,0 +1,60 @@
+.homeTopContainer {
+  display: flex;
+  justify-content: center;
+}
+.homeTopWrapper {
+  top: 0;
+  position: fixed;
+  background-color: #ffffff;
+  padding-top: 40px;
+  padding-bottom: 25px;
+}
+
+.homeSearchContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.homeCardContainer {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: center;
+  gap: 50px;
+  padding-top: 15rem;
+}
+
+.homePaginationContainer {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+.filtersComponent {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  align-items: center;
+  padding-top: 50px;
+}
+
+#clear {
+  border: 1px solid gray;
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 480px) {
+  .homeCardContainer {
+    grid-template-columns: auto;
+    gap: 20px;
+    padding-top: 15rem;
+  }
+  .filtersComponent {
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: flex-start;
+    gap: 20px;
+    padding-top: 20px;
+  }
+}
