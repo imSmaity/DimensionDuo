@@ -1,5 +1,11 @@
 import './styles/card.styles.css'
 
+/**
+ *
+ * @param {Object} item - An object containing information for the card.
+ * @returns {JSX.Element} - Returns JSX representing the Card component.
+ */
+
 const Card = ({ item }) => {
   return (
     <div className="cardContainer">

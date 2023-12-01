@@ -10,71 +10,88 @@ import _ from 'lodash'
 import Loading from '../../components/Loading'
 import noresult from '../../assets/undraw_posting_photo_re_plk8.svg'
 
+/**
+ * Functional component representing the Home page.
+ *
+ * @returns {JSX.Element} - Returns JSX representing the Home component.
+ */
 const Home = () => {
-  const [data, setData] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [page, setPage] = useState(1)
-  const [status, setStatus] = useState('')
-  const [location, setLocation] = useState('')
-  const [gender, setGender] = useState('')
-  const [species, setSpecies] = useState('')
-  const [type, setType] = useState('')
-  const [search, setSearch] = useState('')
-  const [isFilterOpen, setIsFilterOpen] = useState(true)
+  // State Hooks
+  const [data, setData] = useState(null) // Manages the data fetched from the API
+  const [loading, setLoading] = useState(false) // Manages the loading state for character fetch
+  const [page, setPage] = useState(1) // Manages the current page number
+  const [status, setStatus] = useState('') // Manages the status filter for characters
+  const [location, setLocation] = useState('') // Manages the location filter for characters
+  const [gender, setGender] = useState('') // Manages the gender
+  const [species, setSpecies] = useState('') // Manages the species filter for characters
+  const [type, setType] = useState('') // Manages the type filter for characters
+  const [search, setSearch] = useState('') // Manages the search input value
+  const [isFilterOpen, setIsFilterOpen] = useState(true) // Manages the visibility of filters in mobile devices
   const [filtersList, setFiltersList] = useState({
     status: [],
     location: [],
     gender: [],
     species: [],
     type: [],
-  })
+  }) // Manages a list of filters for different properties (status, location, gender, species, type)
 
-  const getFiltersList = (charecters) => {
-    charecters.forEach((charecter) => {
-      if (charecter.status && !filtersList.status.includes(charecter.status)) {
-        filtersList.status.push(charecter.status)
-        setFiltersList({
-          ...filtersList,
-        })
+  /**
+   * Fetches the list of unique filters based on characters' data.
+   *
+   * @param {Array} characters - An array of character data.
+   */
+  const getFiltersList = (characters) => {
+    characters.forEach((character) => {
+      // Status
+      if (character.status && !filtersList.status.includes(character.status)) {
+        filtersList.status.push(character.status)
+        setFiltersList({ ...filtersList })
       }
 
+      // Location
       if (
-        charecter.location.name &&
-        !filtersList.location.includes(charecter.location.name)
+        character.location.name &&
+        !filtersList.location.includes(character.location.name)
       ) {
-        filtersList.location.push(charecter.location.name)
-        setFiltersList({
-          ...filtersList,
-        })
+        filtersList.location.push(character.location.name)
+        setFiltersList({ ...filtersList })
       }
 
-      if (charecter.gender && !filtersList.gender.includes(charecter.gender)) {
-        filtersList.gender.push(charecter.gender)
-        setFiltersList({
-          ...filtersList,
-        })
+      // Gender
+      if (character.gender && !filtersList.gender.includes(character.gender)) {
+        filtersList.gender.push(character.gender)
+        setFiltersList({ ...filtersList })
       }
 
+      // Species
       if (
-        charecter.species &&
-        !filtersList.species.includes(charecter.species)
+        character.species &&
+        !filtersList.species.includes(character.species)
       ) {
-        filtersList.species.push(charecter.species)
-        setFiltersList({
-          ...filtersList,
-        })
+        filtersList.species.push(character.species)
+        setFiltersList({ ...filtersList })
       }
 
-      if (charecter.type && !filtersList.type.includes(charecter.type)) {
-        filtersList.type.push(charecter.type)
-        setFiltersList({
-          ...filtersList,
-        })
+      // Type
+      if (character.type && !filtersList.type.includes(character.type)) {
+        filtersList.type.push(character.type)
+        setFiltersList({ ...filtersList })
       }
     })
   }
 
-  const fetchCharecter = async (
+  /**
+   * Fetches character data based on specified filters.
+   *
+   * @param {number} page - The page number to fetch.
+   * @param {string} name - The search query for character name.
+   * @param {string} status - The status filter.
+   * @param {string} location - The location filter.
+   * @param {string} gender - The gender filter.
+   * @param {string} species - The species filter.
+   * @param {string} type - The type filter.
+   */
+  const fetchCharacter = async (
     page = 1,
     name = '',
     status = '',
@@ -94,61 +111,102 @@ const Home = () => {
       })
       .catch((error) => {
         setLoading(false)
-        console.log(error)
+        console.error(error)
       })
   }
+
+  // Initial data fetch on component mount
   useEffect(() => {
-    fetchCharecter(1)
+    fetchCharacter(1)
   }, [])
 
+  /**
+   * Handles page change event for pagination.
+   *
+   * @param {number} clickedPage - The clicked page number.
+   */
   const handlePageChange = (clickedPage) => {
     if (clickedPage !== page) {
-      fetchCharecter(clickedPage)
+      fetchCharacter(clickedPage)
     }
   }
 
+  /**
+   * Handles search input change and triggers character fetch.
+   *
+   * @param {Object} e - The input change event.
+   */
   const handleSearch = (e) => {
     const value = e.target.value
     setSearch(value)
-    fetchCharecter(1, value, status, location, gender, species, type)
+    fetchCharacter(1, value, status, location, gender, species, type)
   }
 
+  // Debounced search callback to avoid frequent API calls
   const handleSearchCallback = useCallback(_.debounce(handleSearch, 400), [
     search,
   ])
 
+  /**
+   * Handles filter change based on character status.
+   *
+   * @param {Object} e - The filter change event.
+   */
   const handleFilterWithStatus = (e) => {
     const value = e.target.value
     setStatus(value)
-    fetchCharecter(1, search, value, location, gender, species, type)
+    fetchCharacter(1, search, value, location, gender, species, type)
   }
 
+  /**
+   * Handles filter change based on character location.
+   *
+   * @param {Object} e - The filter change event.
+   */
   const handleFilterWithLocation = (e) => {
     const value = e.target.value
     setLocation(value)
-    fetchCharecter(1, search, status, value, gender, species, type)
+    fetchCharacter(1, search, status, value, gender, species, type)
   }
 
+  /**
+   * Handles filter change based on character gender.
+   *
+   * @param {Object} e - The filter change event.
+   */
   const handleFilterWithGender = (e) => {
     const value = e.target.value
     setGender(value)
-    fetchCharecter(1, search, status, location, value, species, type)
+    fetchCharacter(1, search, status, location, value, species, type)
   }
 
+  /**
+   * Handles filter change based on character species.
+   *
+   * @param {Object} e - The filter change event.
+   */
   const handleFilterWithSpecies = (e) => {
     const value = e.target.value
     setSpecies(value)
-    fetchCharecter(1, search, status, location, gender, value, type)
+    fetchCharacter(1, search, status, location, gender, value, type)
   }
 
+  /**
+   * Handles filter change based on character type.
+   *
+   * @param {Object} e - The filter change event.
+   */
   const handleFilterWithType = (e) => {
     const value = e.target.value
     setType(value)
-    fetchCharecter(1, search, status, location, gender, species, value)
+    fetchCharacter(1, search, status, location, gender, species, value)
   }
 
+  /**
+   * Clears all applied filters and fetches initial character data.
+   */
   const clearFilters = () => {
-    fetchCharecter()
+    fetchCharacter()
     setStatus('')
     setLocation('')
     setGender('')

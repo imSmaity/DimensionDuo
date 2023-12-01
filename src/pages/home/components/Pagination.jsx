@@ -2,6 +2,17 @@ import getVisiblePageNumbers from '../../../helper/getVisiblePageNumbers'
 import left from '../../../assets/Expand_left.png'
 import right from '../../../assets/Expand_right.png'
 
+/**
+ * Functional component representing a pagination control.
+ *
+ * @param {Object} props - Properties passed to the Pagination component.
+ * @param {number} props.currentPage - The current active page.
+ * @param {number} props.totalPage - The total number of pages.
+ * @param {function} props.handlePageChange - Callback function triggered on page change.
+ *
+ * @returns {JSX.Element} - Returns JSX representing the Pagination component.
+ */
+
 const Pagination = ({ currentPage, totalPage, handlePageChange }) => {
   return (
     <div>
